@@ -47,8 +47,15 @@ def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
     cam = PiCamera(resolution=cfg.CAMERA_RESOLUTION)
     V.add(cam, outputs=['cam/image_array'], threaded=True)
 
+    # def __init__(self, poll_delay=0.0,
+    #              throttle_scale=1.0,
+    #              steering_scale=1.0,
+    #              throttle_dir=-1.0,
+    #              dev_fn='/dev/input/js0',
+    #              auto_record_on_throttle=True):
+
     if use_joystick or cfg.USE_JOYSTICK_AS_DEFAULT:
-        ctr = PS4Controller(max_throttle=cfg.JOYSTICK_MAX_THROTTLE,
+        ctr = PS4Controller(throttle_scale=cfg.JOYSTICK_THROTTLE_SCALE,
                             steering_scale=cfg.JOYSTICK_STEERING_SCALE,
                             auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE,
                             )
