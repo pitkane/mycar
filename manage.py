@@ -24,7 +24,8 @@ from donkeycar.parts.datastore import TubGroup, TubWriter
 from donkeycar.parts.web_controller import LocalWebController
 from donkeycar.parts.clock import Timestamp
 #from donkeypart_bluetooth_game_controller import BluetoothGameController
-from donkeycar.parts.controller import JoystickController
+from donkeycar.parts.ps4controller import PS4Controller
+
 
 def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
     """
@@ -45,21 +46,11 @@ def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
     cam = PiCamera(resolution=cfg.CAMERA_RESOLUTION)
     V.add(cam, outputs=['cam/image_array'], threaded=True)
 
-    # def __init__(self, poll_delay=0.0,
-    #              max_throttle=1.0,
-    #              steering_axis='x',
-    #              throttle_axis='rz',
-    #              steering_scale=1.0,
-    #              throttle_scale=-1.0,
-    #              dev_fn='/dev/input/js0',
-    #              auto_record_on_throttle=True):
-
     if use_joystick or cfg.USE_JOYSTICK_AS_DEFAULT:
-#        ctr = BluetoothGameController()
-        ctr = JoystickController(max_throttle=cfg.JOYSTICK_MAX_THROTTLE,
-                                 steering_scale=cfg.JOYSTICK_STEERING_SCALE,
-                                 auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE,
-                                 )
+        ctr = PS4Controller(max_throttle=cfg.JOYSTICK_MAX_THROTTLE,
+                            steering_scale=cfg.JOYSTICK_STEERING_SCALE,
+                            auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE,
+                            )
     else:
         # This web controller will create a web server that is capable
         # of managing steering, throttle, and modes, and more.
@@ -127,7 +118,8 @@ def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
     V.add(throttle, inputs=['throttle'])
 
     # add tub to save data
-    inputs = ['cam/image_array', 'user/angle', 'user/throttle', 'user/mode', 'timestamp']
+    inputs = ['cam/image_array', 'user/angle',
+              'user/throttle', 'user/mode', 'timestamp']
     types = ['image_array', 'float', 'float',  'str', 'str']
 
     # multiple tubs
@@ -185,7 +177,8 @@ if __name__ == '__main__':
     cfg = dk.load_config()
 
     if args['drive']:
-        drive(cfg, model_path=args['--model'], use_joystick=args['--js'], use_chaos=args['--chaos'])
+        drive(cfg, model_path=args['--model'],
+              use_joystick=args['--js'], use_chaos=args['--chaos'])
 
     elif args['train']:
         tub = args['--tub']
@@ -193,8 +186,3 @@ if __name__ == '__main__':
         base_model_path = args['--base_model']
         cache = not args['--no_cache']
         train(cfg, tub, new_model_path, base_model_path)
-
-
-
-
-
