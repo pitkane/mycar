@@ -24,8 +24,8 @@ from donkeycar.parts.datastore import TubGroup, TubWriter
 from donkeycar.parts.web_controller import LocalWebController
 from donkeycar.parts.clock import Timestamp
 #from donkeypart_bluetooth_game_controller import BluetoothGameController
-# from donkeycar.parts.ps4controller import PS4Controller
-from donkeycar.parts.pscontroller import PS4JoystickController
+from donkeycar.parts.ps4controller import PS4Controller
+# from donkeycar.parts.pscontroller import PS4JoystickController
 
 
 def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
