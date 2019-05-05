@@ -23,7 +23,7 @@ from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
 from donkeycar.parts.datastore import TubGroup, TubWriter
 from donkeycar.parts.web_controller import LocalWebController
 from donkeycar.parts.clock import Timestamp
-#from donkeypart_bluetooth_game_controller import BluetoothGameController
+# from donkeypart_bluetooth_game_controller import BluetoothGameController
 from donkeycar.parts.ps4controller import PS4Controller
 # from donkeycar.parts.pscontroller import PS4JoystickController
 
@@ -55,7 +55,7 @@ def drive(cfg, model_path=None, use_joystick=False, use_chaos=False):
     #              auto_record_on_throttle=True):
 
     if use_joystick or cfg.USE_JOYSTICK_AS_DEFAULT:
-        ctr = PS4Controller(throttle_scale=cfg.JOYSTICK_THROTTLE_SCALE,
+        ctr = PS4Controller(max_throttle=cfg.JOYSTICK_MAX_THROTTLE,
                             steering_scale=cfg.JOYSTICK_STEERING_SCALE,
                             auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE,
                             )
